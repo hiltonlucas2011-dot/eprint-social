@@ -39,8 +39,8 @@ ter–sex 8h  ──►  PUBLICAR: aprovados → fila do Buffer (qua/sex 12h)
    - `tag` (2–3 palavras), `titulo` (até ~45 caracteres; `*palavra*` vira destaque de cor)
    - `subtitulo` (1–2 frases), `bullets` (0–3 itens curtos) **ou** `destaque` `{valor, legenda}`, `cta`
    - `alt` (texto alternativo da imagem)
-   - `legenda_instagram`: gancho na 1ª linha, 3–6 linhas curtas, CTA, 5–10 hashtags no fim, emojis com moderação
-   - `legenda_linkedin`: publicada no perfil pessoal do LinkedIn; tom profissional/B2B, 4–8 linhas, foco em benefício para o negócio do cliente, 3–5 hashtags, sem excesso de emoji
+   - `legenda_instagram`: gancho na 1ª linha, 3–6 linhas curtas, CTA, 5–10 hashtags no fim, emojis com moderação. CTA: alterne entre direct, link da bio e WhatsApp (11) 98654-4045.
+   - `legenda_linkedin`: publicada no perfil pessoal do LinkedIn; tom profissional/B2B, 4–8 linhas, foco em benefício para o negócio do cliente, 3–5 hashtags, sem excesso de emoji. CTA: site www.eprintonline.com.br e, quando fizer sentido, o WhatsApp (11) 98654-4045.
 4. Gere as artes: `node scripts/render.js posts/<id>/post.json`. Abra o PNG e confira (texto cortado, acento, contraste). Se o script avisar "texto estourando", encurte o texto.
 5. Faça commit e push de `posts/` (o Buffer baixa a imagem pela URL pública do GitHub: `config.imagens.url_base + posts/<id>/post.png`).
 6. Envie a arte para a página de aprovação como asset (ferramenta Artifact: `url` = `config.aprovacao.pagina_url`, `file_path` = o PNG, `asset: true`). Guarde o caminho `/_blob/...` que voltar: é o `preview_url` (a página não consegue mostrar imagens do GitHub).
