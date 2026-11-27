@@ -5,7 +5,7 @@
 
 ## Quem somos
 - **Eprintonline. Muito mais do que impressão.** Somos especializados em comunicação visual: "As soluções que você precisa para Comunicação Visual e Decoração de Ambientes."
-- Cajamar, São Paulo. Orçamentos pelo e-mail orcamento@eprintonline.com.br. **Telefone: pendente.** O Hilton vai enviar o número certo; até lá, não coloque telefone nos posts (o número do site está incompleto). Loja online: www.eprintonline.store. Site: www.eprintonline.com.br.
+- Cajamar, São Paulo. Orçamentos pelo e-mail orcamento@eprintonline.com.br. Telefone: (11) 98654-4045 (confirmado pelo Hilton em 27/11; o site mostra o número com um dígito a menos, não copie de lá). Loja online: www.eprintonline.store. Site: www.eprintonline.com.br.
 - Instagram: @eprintonline.store
 
 ## Linhas de produto (categorias da loja)
