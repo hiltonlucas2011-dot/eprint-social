@@ -68,7 +68,10 @@
   .post.com-foto { padding-top: 0; }
   .foto { margin: 0 -88px 56px; height: 680px; position: relative; overflow: hidden; flex: none; background: #fff; }
   .foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .foto.contain img { object-fit: contain; }
+  .foto.contain { display: flex; justify-content: center; align-items: center; }
+  .foto.contain img { width: auto; max-width: 100%; height: calc(100% - 48px); object-fit: contain;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
   .foto::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 10px; background: var(--green); }
   .verde .foto::after { background: var(--navy); }
   .com-foto .tag { margin-bottom: 26px; font-size: 24px; }
@@ -110,7 +113,7 @@
     const bullets = (p.bullets || []).slice(0, p.foto_url ? 0 : 4).map(b =>
       `<li><span class="ck">${CHECK.replace('STROKE', stroke)}</span><span>${esc(b)}</span></li>`).join('');
     const destaque = p.destaque ? `<div class="num">${esc(p.destaque.valor)}<small>${esc(p.destaque.legenda)}</small></div>` : '';
-    const foto = p.foto_url ? `<div class="foto${p.foto_ajuste === 'contain' ? ' contain' : ''}"><img src="${esc(p.foto_url)}" alt=""></div>` : '';
+    const foto = p.foto_url ? `<div class="foto${p.foto_ajuste === 'contain' ? ' contain' : ''}"${/^#[0-9a-fA-F]{6}$/.test(p.foto_fundo || '') ? ` style="background:${p.foto_fundo}"` : ''}><img src="${esc(p.foto_url)}" alt=""></div>` : '';
     document.getElementById('root').innerHTML = `
       <div class="post ${layout}${foto ? ' com-foto' : ''}">
         <span class="deco" style="width:620px;height:620px;right:-220px;top:-180px"></span>
