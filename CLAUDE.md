@@ -25,8 +25,13 @@ ter–sex 8h  ──►  PUBLICAR: aprovados → fila do Buffer (qua/sex 12h)
 3. Para cada post, crie `posts/AAAA-MM-DD-<slug>/post.json` com os campos:
    - `id`, `data_publicacao` (ISO com -03:00), `pilar` (`produto` | `servico`)
    - `layout`: alterne `verde`, `claro` e `marinho` (nunca dois iguais seguidos)
-   - **Todo post tem foto.** Baixe a foto do produto da loja e salve como `posts/<id>/foto.jpg`, com o campo `"foto": "foto.jpg"`. A arte com foto não mostra `bullets` (as informações vão na legenda). Se o tema não tiver uma foto boa (800 px ou mais, sem marca de cliente), troque o tema por outro da lista de pautas que tenha.
-     Fotos: em `https://www.eprintonline.store/products/<handle>.json` → `product.images[].src`. Troque `https://cdn.shopify.com/s/files/1/0682/4126/0819/` por `https://www.eprintonline.store/cdn/shop/` para baixar. Baixe uma por vez, com alguns segundos entre elas (o site devolve erro 429 se for rápido demais). Prefira fotos com 800 px ou mais, e **nunca use foto que mostre marca ou logotipo de cliente**.
+   - **Todo post tem foto**, salva como `posts/<id>/foto.jpg`, com o campo `"foto": "foto.jpg"`. Procure a foto nesta ordem:
+     1. **Fotos enviadas pelo Hilton na página de aprovação:** ArtifactData `list` da coleção `fotos` (campos `asset_id`, `produto`, `observacao`, `usos`). Baixe a escolhida com a ferramenta Artifact (`action: "read"`, `url` = página de aprovação, `path` = `asset_id`) e copie para `posts/<id>/foto.jpg`. Depois do post criado, acrescente o `id` do post em `usos` com `update`.
+     2. **Fotos da pasta `fotos/` do repositório:** o nome do arquivo diz o produto. Registre o uso em `fotos/usos.md`.
+     3. **Fotos do site da loja** (como abaixo).
+     Use as fotos do Hilton sempre que houver uma do produto do tema, e escolha o tema pensando nelas. Não repita a mesma foto em menos de 6 semanas, se houver outra.
+     A arte com foto não mostra `bullets` (as informações vão na legenda). Se o tema não tiver nenhuma foto boa (800 px ou mais, sem marca de cliente), troque o tema por outro da lista de pautas que tenha.
+     Fotos do site: em `https://www.eprintonline.store/products/<handle>.json` → `product.images[].src`. Troque `https://cdn.shopify.com/s/files/1/0682/4126/0819/` por `https://www.eprintonline.store/cdn/shop/` para baixar. Baixe uma por vez, com alguns segundos entre elas (o site devolve erro 429 se for rápido demais). Prefira fotos com 800 px ou mais, e **nunca use foto que mostre marca ou logotipo de cliente**.
    - `tag` (2–3 palavras), `titulo` (até ~45 caracteres; `*palavra*` vira destaque de cor)
    - `subtitulo` (1–2 frases), `bullets` (0–3 itens curtos) **ou** `destaque` `{valor, legenda}`, `cta`
    - `alt` (texto alternativo da imagem)

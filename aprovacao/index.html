@@ -77,6 +77,36 @@ textarea[readonly] { background: transparent; }
 .msg { font-size: 14px; color: var(--muted); min-height: 1em; }
 .foot { color: var(--muted); font-size: 13px; }
 
+/* Abas: Posts / Minhas fotos */
+.seg { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px; align-self: flex-start; }
+.seg a { font-family: var(--head); font-weight: 700; font-size: 14px; color: var(--muted); text-decoration: none; padding: 8px 18px; border-radius: 999px; }
+.seg a[aria-current="page"] { background: var(--ink); color: var(--bg); }
+.seg a:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+/* Minhas fotos */
+.fotos-intro { color: var(--muted); margin: 0; max-width: 62ch; }
+.drop { background: var(--surface); border: 2px dashed var(--line); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.drop strong { font-family: var(--head); color: var(--ink); font-size: 17px; }
+.drop.over { border-color: var(--green); background: var(--green-soft); }
+.drop input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.queue { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.qitem { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 12px; align-items: start; background: var(--bg); border-radius: 8px; padding: 10px; }
+.qitem img { width: 88px; height: 88px; object-fit: cover; border-radius: 6px; display: block; }
+.qitem .fields { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.qitem label { font-family: var(--head); font-weight: 600; font-size: 13px; color: var(--ink); }
+.qitem input[type=text] { width: 100%; font: inherit; font-size: 15px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; }
+.qitem input[type=text]:focus-visible { outline: 2px solid var(--green); outline-offset: 1px; }
+.qitem .qmsg { font-size: 13px; color: var(--muted); }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+.ph { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+.ph img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: var(--line); }
+.ph .cap { padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.ph .prod { font-family: var(--head); font-weight: 700; color: var(--ink); font-size: 15px; overflow-wrap: anywhere; }
+.ph .obs, .ph .uses { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.ph .del { align-self: flex-start; background: none; border: 0; color: var(--red); font-family: var(--head); font-weight: 600; font-size: 13px; padding: 4px 0; cursor: pointer; }
+.ph .del:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.ph .confirm { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--red); flex-wrap: wrap; }
+
 @media (max-width: 620px) {
   .post { grid-template-columns: minmax(0, 1fr); }
   .art { aspect-ratio: 4 / 5; }
@@ -90,10 +120,29 @@ textarea[readonly] { background: transparent; }
     <h1>Posts esperando sua aprovação</h1>
     <p class="lead">O agente prepara os posts da semana. Quando houver várias opções para o mesmo dia, aprove a que você prefere e descarte as outras. Aprovou mais de uma? O agente agenda as extras nos próximos dias livres. Nada é publicado sem o seu aprovado.</p>
   </header>
-  <div class="summary" id="summary" aria-live="polite"></div>
-  <div class="list" id="list">
-    <div class="notice" id="empty"><strong>Carregando posts…</strong><br>Os posts da semana aparecem aqui toda segunda-feira de manhã.</div>
-  </div>
+  <nav class="seg" aria-label="Seções">
+    <a href="#posts" id="nav-posts" aria-current="page">Posts</a>
+    <a href="#fotos" id="nav-fotos">Minhas fotos</a>
+  </nav>
+  <section id="sec-posts" class="wrap" style="padding:0">
+    <div class="summary" id="summary" aria-live="polite"></div>
+    <div class="list" id="list">
+      <div class="notice" id="empty"><strong>Carregando posts…</strong><br>Os posts da semana aparecem aqui toda segunda-feira de manhã.</div>
+    </div>
+  </section>
+  <section id="sec-fotos" class="wrap" style="padding:0" hidden>
+    <p class="fotos-intro">Envie fotos dos seus produtos e diga qual produto aparece em cada uma. O agente usa as suas fotos antes das fotos do site, sem repetir a mesma foto em posts próximos.</p>
+    <div class="drop" id="drop">
+      <strong>Enviar fotos</strong>
+      <span class="fotos-intro">Escolha uma ou mais fotos da galeria. JPG ou PNG, de preferência com 1000 px ou mais e sem marca de cliente.</span>
+      <label class="btn btn-ok" for="file-in" id="pick">Escolher fotos</label>
+      <input type="file" id="file-in" accept="image/jpeg,image/png,image/webp,image/heic,image/*" multiple>
+      <div class="queue" id="queue"></div>
+      <button class="btn btn-ok" id="send-all" hidden>Enviar fotos</button>
+      <div class="msg" id="up-msg" aria-live="polite"></div>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </section>
   <p class="foot">Instagram: eprintonline.store · LinkedIn: perfil Eprintonline · Publicação às 12h nas quartas e sextas.</p>
 </div>
 
@@ -207,6 +256,125 @@ function renderPost(p) {
   return el('article', { class: 'post' + (open ? '' : ' done'), id: 'post-' + p.id }, art, el('div', { class: 'info' }, ...kids));
 }
 
+// ---------- Abas ----------
+function showSection() {
+  const fotos = location.hash === '#fotos';
+  document.getElementById('sec-fotos').hidden = !fotos;
+  document.getElementById('sec-posts').hidden = fotos;
+  document.getElementById('nav-fotos').toggleAttribute('aria-current', fotos);
+  document.getElementById('nav-posts').toggleAttribute('aria-current', !fotos);
+  if (fotos) document.getElementById('nav-fotos').setAttribute('aria-current', 'page'); else document.getElementById('nav-posts').setAttribute('aria-current', 'page');
+}
+window.addEventListener('hashchange', showSection); showSection();
+
+// ---------- Minhas fotos ----------
+let assets = null, fotos = [];
+const queue = [];   // {file, previewUrl, produto, obs}
+const confirming = new Set();
+
+async function prepareImage(file) {
+  // Reduz fotos grandes para no máximo 2400 px (JPEG). Se o navegador não conseguir ler, envia o original.
+  try {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, 2400 / Math.max(bmp.width, bmp.height));
+    const w = Math.round(bmp.width * scale), h = Math.round(bmp.height * scale);
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    c.getContext('2d').drawImage(bmp, 0, 0, w, h);
+    const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.9));
+    if (blob) return { blob, type: 'image/jpeg', w, h };
+  } catch (e) { /* segue com o original */ }
+  const ok = ['image/jpeg', 'image/png', 'image/webp'];
+  return ok.includes(file.type) ? { blob: file, type: file.type, w: null, h: null } : null;
+}
+
+function renderQueue() {
+  const q = document.getElementById('queue');
+  q.replaceChildren(...queue.map((it, i) => {
+    const prod = el('input', { type: 'text', id: `q-prod-${i}`, placeholder: 'Ex.: SmartFrame na vitrine da loja' });
+    prod.value = it.produto; prod.addEventListener('input', () => { it.produto = prod.value; });
+    const obs = el('input', { type: 'text', id: `q-obs-${i}`, placeholder: 'Observação (opcional)' });
+    obs.value = it.obs; obs.addEventListener('input', () => { it.obs = obs.value; });
+    return el('div', { class: 'qitem' }, el('img', { src: it.previewUrl, alt: '' }),
+      el('div', { class: 'fields' }, el('label', { for: `q-prod-${i}`, text: 'Produto na foto' }), prod, obs,
+        el('span', { class: 'qmsg', text: it.msg || '' }),
+        el('button', { class: 'del', type: 'button', style: 'color:var(--muted)', onclick: () => { URL.revokeObjectURL(it.previewUrl); queue.splice(i, 1); renderQueue(); } }, document.createTextNode('Remover da lista'))));
+  }));
+  document.getElementById('send-all').hidden = !queue.length;
+}
+
+function addFiles(list) {
+  for (const f of list) if (f.type.startsWith('image/') || /\.(heic|heif)$/i.test(f.name)) queue.push({ file: f, previewUrl: URL.createObjectURL(f), produto: '', obs: '' });
+  renderQueue();
+}
+
+async function sendAll() {
+  const msg = document.getElementById('up-msg'), btn = document.getElementById('send-all');
+  const missing = queue.findIndex(it => !it.produto.trim());
+  if (missing >= 0) { msg.textContent = 'Diga qual produto aparece em cada foto.'; document.getElementById(`q-prod-${missing}`).focus(); return; }
+  btn.disabled = true;
+  let sent = 0;
+  while (queue.length) {
+    const it = queue[0];
+    msg.textContent = `Enviando ${sent + 1} de ${sent + queue.length}…`;
+    try {
+      const prep = await prepareImage(it.file);
+      if (!prep) { it.msg = 'Este formato não abriu aqui. Tente salvar a foto como JPG.'; break; }
+      const up = await assets.upload(prep.blob, { type: prep.type });
+      await db.doc('fotos/' + up.id).set({ asset_id: up.id, produto: it.produto.trim(), observacao: it.obs.trim(),
+        largura: prep.w, altura: prep.h, enviado_em: new Date().toISOString(), usos: [] });
+      URL.revokeObjectURL(it.previewUrl); queue.shift(); sent++;
+    } catch (e) {
+      const c = e && e.code;
+      it.msg = c === 'too_large' ? 'Foto grande demais (máx. 20 MB).' : c === 'unsupported_type' ? 'Formato não aceito. Use JPG ou PNG.'
+        : c === 'quota_or_state' ? 'O espaço de fotos acabou. Apague algumas antigas.' : c === 'rate_limited' ? 'Muitos envios seguidos. Espere um pouco e tente de novo.'
+        : 'Não deu para enviar agora. Tente de novo.';
+      break;
+    }
+  }
+  renderQueue(); btn.disabled = false;
+  msg.textContent = sent ? `${sent} foto${sent > 1 ? 's enviadas' : ' enviada'}.` + (queue.length ? ' Confira a que ficou na lista.' : '') : '';
+}
+
+function renderGallery() {
+  const g = document.getElementById('gallery');
+  if (!fotos.length) { g.replaceChildren(el('div', { class: 'notice' }, el('strong', { text: 'Nenhuma foto enviada ainda.' }), el('br'), document.createTextNode('Enquanto isso, o agente usa as fotos do site da loja.'))); return; }
+  g.replaceChildren(...fotos.map(f => {
+    const usos = Array.isArray(f.usos) ? f.usos.length : 0;
+    const cap = el('div', { class: 'cap' }, el('span', { class: 'prod', text: f.produto || 'Sem produto' }),
+      f.observacao ? el('span', { class: 'obs', text: f.observacao }) : null,
+      el('span', { class: 'uses', text: usos ? `Usada em ${usos} post${usos > 1 ? 's' : ''}` : 'Ainda não usada' }));
+    if (assets && canWrite) {
+      if (confirming.has(f.id)) {
+        cap.append(el('div', { class: 'confirm' }, document.createTextNode('Apagar esta foto?'),
+          el('button', { class: 'del', type: 'button', onclick: async () => {
+            try { await db.doc('fotos/' + f.id).delete(); await assets.delete(f.asset_id).catch(() => {}); }
+            catch (e) { document.getElementById('up-msg').textContent = 'Não deu para apagar agora.'; }
+            confirming.delete(f.id); } }, document.createTextNode('Sim, apagar')),
+          el('button', { class: 'del', type: 'button', style: 'color:var(--muted)', onclick: () => { confirming.delete(f.id); renderGallery(); } }, document.createTextNode('Cancelar'))));
+      } else {
+        cap.append(el('button', { class: 'del', type: 'button', onclick: () => { confirming.add(f.id); renderGallery(); } }, document.createTextNode('Apagar')));
+      }
+    }
+    return el('div', { class: 'ph' }, el('img', { src: '/_blob/' + f.asset_id, alt: f.produto || 'Foto de produto', loading: 'lazy' }), cap);
+  }));
+}
+
+async function startFotos() {
+  assets = await claude.use('assets');
+  const drop = document.getElementById('drop');
+  if (!assets || !canWrite) { drop.hidden = true; }
+  const input = document.getElementById('file-in');
+  input.addEventListener('change', () => { addFiles(input.files); input.value = ''; });
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); addFiles(e.dataTransfer.files); });
+  document.getElementById('send-all').addEventListener('click', sendAll);
+  db.collection('fotos').orderBy('enviado_em', 'desc').limit(200).onSnapshot(snap => {
+    fotos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderGallery();
+  }, () => { document.getElementById('gallery').replaceChildren(el('div', { class: 'notice', text: 'Não foi possível carregar as fotos. Recarregue a página.' })); });
+}
+
 (async () => {
   const empty = document.getElementById('empty');
   db = await claude.use('db');
@@ -220,5 +388,6 @@ function renderPost(p) {
     for (const p of posts) if (p.status !== 'pendente') delete drafts[p.id];
     render();
   }, () => { clearTimeout(timer); empty.replaceChildren(el('strong', { text: 'Não foi possível carregar os posts.' }), el('br'), document.createTextNode('Recarregue a página.')); });
+  startFotos();
 })();
 </script>
