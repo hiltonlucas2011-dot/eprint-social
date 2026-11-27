@@ -25,7 +25,7 @@ ter–sex 8h  ──►  PUBLICAR: aprovados → fila do Buffer (qua/sex 12h)
 3. Para cada post, crie `posts/AAAA-MM-DD-<slug>/post.json` com os campos:
    - `id`, `data_publicacao` (ISO com -03:00), `pilar` (`produto` | `servico`)
    - `layout`: alterne `verde`, `claro` e `marinho` (nunca dois iguais seguidos)
-   - **Alterne post com foto e post só com texto** (na semana: um de cada). Post com foto: baixe a foto do produto da loja e salve como `posts/<id>/foto.jpg`, com o campo `"foto": "foto.jpg"`. Nesse caso, `bullets` não aparece na arte (as informações vão na legenda).
+   - **Todo post tem foto.** Baixe a foto do produto da loja e salve como `posts/<id>/foto.jpg`, com o campo `"foto": "foto.jpg"`. A arte com foto não mostra `bullets` (as informações vão na legenda). Se o tema não tiver uma foto boa (800 px ou mais, sem marca de cliente), troque o tema por outro da lista de pautas que tenha.
      Fotos: em `https://www.eprintonline.store/products/<handle>.json` → `product.images[].src`. Troque `https://cdn.shopify.com/s/files/1/0682/4126/0819/` por `https://www.eprintonline.store/cdn/shop/` para baixar. Baixe uma por vez, com alguns segundos entre elas (o site devolve erro 429 se for rápido demais). Prefira fotos com 800 px ou mais, e **nunca use foto que mostre marca ou logotipo de cliente**.
    - `tag` (2–3 palavras), `titulo` (até ~45 caracteres; `*palavra*` vira destaque de cor)
    - `subtitulo` (1–2 frases), `bullets` (0–3 itens curtos) **ou** `destaque` `{valor, legenda}`, `cta`
