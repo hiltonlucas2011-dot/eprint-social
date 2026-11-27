@@ -6,7 +6,8 @@ Nada é publicado sem a aprovação do Hilton (Diretor Comercial) na página de 
 ## Visão geral do fluxo
 
 ```
-segunda 9h  ──►  GERAR  ──►  página de aprovação  ──►  Hilton aprova / pede ajuste
+segunda 9h  ──►  GERAR  ──►  página de aprovação  ──►  Hilton aprova / pede ajuste / descarta
+                                         (pode editar a legenda antes de aprovar: use o texto salvo no documento)
                                                            │
 ter–sex 8h  ──►  PUBLICAR: aprovados → fila do Buffer (qua/sex 12h)
                            ajustes   → refaz o post e volta para aprovação
@@ -31,23 +32,25 @@ ter–sex 8h  ──►  PUBLICAR: aprovados → fila do Buffer (qua/sex 12h)
    - `legenda_linkedin`: publicada no perfil pessoal do LinkedIn; tom profissional/B2B, 4–8 linhas, foco em benefício para o negócio do cliente, 3–5 hashtags, sem excesso de emoji
 4. Gere as artes: `node scripts/render.js posts/<id>/post.json`. Abra o PNG e confira (texto cortado, acento, contraste). Se o script avisar "texto estourando", encurte o texto.
 5. Faça commit e push de `posts/` (o Buffer baixa a imagem pela URL pública do GitHub: `config.imagens.url_base + posts/<id>/post.png`).
-6. Grave os posts na página de aprovação (`config.aprovacao.pagina_url`) com a ferramenta ArtifactData, coleção `posts`, documento = `id`:
-   `{id, data_publicacao, pilar, imagem_url, legenda_instagram, legenda_linkedin, status: "pendente", feedback: "", criado_em}`
+6. Envie a arte para a página de aprovação como asset (ferramenta Artifact: `url` = `config.aprovacao.pagina_url`, `file_path` = o PNG, `asset: true`). Guarde o caminho `/_blob/...` que voltar: é o `preview_url` (a página não consegue mostrar imagens do GitHub).
+   Depois grave o post com a ferramenta ArtifactData, coleção `posts`, documento = `id`:
+   `{id, data_publicacao, pilar, preview_url, imagem_url, alt, legenda_instagram, legenda_linkedin, status: "pendente", feedback: "", versao: 1, criado_em}`
 7. Avise o Hilton (notificação) com o link da página.
 
 ## Rotina PUBLICAR (terça a sexta, de manhã)
 
 1. Leia a coleção `posts` da página de aprovação (ArtifactData `list`).
-2. `status: "aprovado"` → crie **um post por canal** no Buffer com `create_post`:
+2. Ignore documentos com `teste: true` (são só demonstração).
+3. `status: "aprovado"` → crie **um post por canal** no Buffer com `create_post`:
    - `mode: "customScheduled"`, `dueAt` = `data_publicacao`, `schedulingType: "automatic"`
    - imagem em `assets[0].image.url` (URL pública do GitHub) com `metadata.altText`
    - Instagram: `metadata.instagram = {type: "post", shouldShareToFeed: true}`, texto = `legenda_instagram`
    - LinkedIn (perfil pessoal, canal `linkedin_perfil`): texto = `legenda_linkedin`
    - Depois, `update` do documento: `status: "agendado"`, `buffer_ids: {...}`. Acrescente uma linha em `conteudo/historico.md`.
    - Se `data_publicacao` já passou, **não** publique: use o próximo dia/horário da agenda (`config.agenda`) e registre a nova data.
-3. `status: "ajuste"` → refaça o post seguindo o `feedback`, renderize de novo, faça push, e volte o documento para `status: "pendente"` com `feedback` limpo e `versao` + 1. Avise o Hilton.
-4. `status: "reprovado"` → não publique; registre no histórico como descartado.
-5. `pendente` → não faça nada.
+4. `status: "ajuste"` → refaça o post seguindo o `feedback`, renderize de novo, faça push, suba a nova arte como asset (novo `preview_url`), e volte o documento para `status: "pendente"` com `feedback` limpo e `versao` + 1. Avise o Hilton.
+5. `status: "reprovado"` → não publique; registre no histórico como descartado.
+6. `pendente` → não faça nada.
 
 ## Regras que não mudam
 

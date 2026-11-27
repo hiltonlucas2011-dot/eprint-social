@@ -1,0 +1,224 @@
+<title>Aprovação de Posts Eprint</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@600;700;800&family=Maven+Pro:wght@400;500;700&display=swap">
+<style>
+/* Layout: uma coluna de cartões de post (arte + legendas + decisão), pensada para o celular primeiro. */
+:root {
+  --bg: #F6F7E9; --surface: #FFFFFF; --ink: #222831; --text: #2C3E50; --muted: #6B7280; --line: #E5E7EB;
+  --green: #6AB04C; --green-ink: #4A8A2E; --green-soft: #F0F9EB;
+  --amber: #B45309; --amber-soft: #FEF3C7; --red: #B91C1C; --red-soft: #FEE2E2; --blue: #1D4ED8; --blue-soft: #DBEAFE;
+  --head: 'Figtree', system-ui, sans-serif; --body: 'Maven Pro', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #171B21; --surface: #222831; --ink: #F3F4F6; --text: #D1D5DB; --muted: #9CA3AF; --line: #374151;
+  --green: #6AB04C; --green-ink: #8FCB72; --green-soft: #22331B;
+  --amber: #FBBF24; --amber-soft: #3A2E12; --red: #F87171; --red-soft: #3B1C1C; --blue: #93C5FD; --blue-soft: #1E2A44;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #171B21; --surface: #222831; --ink: #F3F4F6; --text: #D1D5DB; --muted: #9CA3AF; --line: #374151;
+  --green: #6AB04C; --green-ink: #8FCB72; --green-soft: #22331B;
+  --amber: #FBBF24; --amber-soft: #3A2E12; --red: #F87171; --red-soft: #3B1C1C; --blue: #93C5FD; --blue-soft: #1E2A44;
+  color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 16px; line-height: 1.5;
+       padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 760px; margin: 0 auto; padding-block: 28px 64px; display: flex; flex-direction: column; gap: 24px; }
+
+header { display: flex; flex-direction: column; gap: 6px; }
+.eyebrow { font-family: var(--head); font-weight: 700; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--green-ink);
+           display: flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ''; width: 24px; height: 3px; border-radius: 2px; background: var(--green); }
+h1 { font-family: var(--head); font-weight: 800; font-size: clamp(26px, 6vw, 34px); line-height: 1.1; color: var(--ink); margin: 0; text-wrap: balance; }
+.lead { color: var(--muted); margin: 0; max-width: 60ch; }
+
+.summary { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-family: var(--head); font-weight: 700; font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+        padding: 6px 12px; border-radius: 999px; display: inline-flex; gap: 6px; align-items: center; }
+.s-pendente { background: var(--amber-soft); color: var(--amber); }
+.s-aprovado { background: var(--green-soft); color: var(--green-ink); }
+.s-agendado { background: var(--blue-soft); color: var(--blue); }
+.s-ajuste   { background: var(--amber-soft); color: var(--amber); }
+.s-reprovado{ background: var(--red-soft); color: var(--red); }
+
+.notice { background: var(--surface); border: 1px dashed var(--line); border-radius: 10px; padding: 20px; color: var(--muted); }
+.notice strong { color: var(--ink); font-family: var(--head); }
+
+.list { display: flex; flex-direction: column; gap: 20px; }
+.post { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+        display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); }
+.post.done { opacity: .78; }
+.art { background: var(--ink); aspect-ratio: 4 / 5; max-width: 100%; display: grid; place-items: center; color: var(--muted); font-size: 13px; }
+.art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.info { padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.date { font-family: var(--head); font-weight: 700; color: var(--ink); font-size: 17px; }
+.pilar { font-size: 13px; color: var(--muted); }
+.meta .chip { margin-left: auto; }
+
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+.tab { font-family: var(--head); font-weight: 600; font-size: 14px; background: none; border: 0; color: var(--muted);
+       padding: 8px 10px; border-bottom: 3px solid transparent; cursor: pointer; margin-bottom: -1px; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--green); }
+.tab:focus-visible, button:focus-visible, textarea:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+textarea { width: 100%; min-height: 170px; resize: vertical; font: inherit; font-size: 15px; color: var(--text); background: var(--bg);
+           border: 1px solid var(--line); border-radius: 8px; padding: 12px; line-height: 1.5; }
+textarea[readonly] { background: transparent; }
+.fb textarea { min-height: 80px; }
+.edited { font-size: 12px; color: var(--green-ink); }
+
+.feedback-note { background: var(--amber-soft); color: var(--amber); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { font-family: var(--head); font-weight: 700; font-size: 15px; border-radius: 999px; padding: 11px 20px; cursor: pointer; border: 2px solid transparent; }
+.btn-ok { background: var(--green); color: #FFFFFF; }
+.btn-alt { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn-ghost { background: transparent; color: var(--red); padding-inline: 12px; }
+.btn:disabled { opacity: .5; cursor: default; }
+.msg { font-size: 14px; color: var(--muted); min-height: 1em; }
+.foot { color: var(--muted); font-size: 13px; }
+
+@media (max-width: 620px) {
+  .post { grid-template-columns: minmax(0, 1fr); }
+  .art { aspect-ratio: 4 / 5; }
+}
+@media (prefers-reduced-motion: no-preference) { .btn { transition: filter .15s; } .btn:hover:not(:disabled) { filter: brightness(1.06); } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Eprintonline · Instagram e LinkedIn</div>
+    <h1>Posts esperando sua aprovação</h1>
+    <p class="lead">O agente prepara os posts da semana. Aprove para agendar no Buffer, peça um ajuste ou descarte. Nada é publicado sem o seu aprovado.</p>
+  </header>
+  <div class="summary" id="summary" aria-live="polite"></div>
+  <div class="list" id="list">
+    <div class="notice" id="empty"><strong>Carregando posts…</strong><br>Os posts da semana aparecem aqui toda segunda-feira de manhã.</div>
+  </div>
+  <p class="foot">Instagram: eprintonline.store · LinkedIn: perfil Eprintonline · Publicação às 12h nas quartas e sextas.</p>
+</div>
+
+<script>
+const STATUS = {
+  pendente:  { label: 'Aguardando você', cls: 's-pendente' },
+  aprovado:  { label: 'Aprovado · vai para o Buffer', cls: 's-aprovado' },
+  agendado:  { label: 'Agendado no Buffer', cls: 's-agendado' },
+  ajuste:    { label: 'Ajuste pedido', cls: 's-ajuste' },
+  reprovado: { label: 'Descartado', cls: 's-reprovado' },
+};
+const DIAS = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+const fmtDate = iso => {
+  const d = new Date(iso); if (isNaN(d)) return 'Sem data';
+  const p = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'long' }).formatToParts(d);
+  const g = t => (p.find(x => x.type === t) || {}).value || '';
+  return `${g('weekday').replace(/^./, c => c.toUpperCase())}, ${g('day')}/${g('month')} às ${g('hour')}h${g('minute') === '00' ? '' : g('minute')}`;
+};
+const el = (tag, attrs = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v;
+    else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else if (v !== false && v != null) n.setAttribute(k, v === true ? '' : v);
+  }
+  for (const k of kids) if (k) n.append(k);
+  return n;
+};
+const safeImg = u => typeof u === 'string' && (u.startsWith('/_blob/') || u.startsWith('https://')) ? u : null;
+
+let db = null, canWrite = false, posts = [];
+const drafts = {};   // legendas editadas e ainda não salvas, por post
+const ui = {};       // aba aberta e caixa de ajuste aberta, por post
+
+function renderSummary() {
+  const s = document.getElementById('summary'); s.replaceChildren();
+  const counts = {};
+  posts.forEach(p => counts[p.status] = (counts[p.status] || 0) + 1);
+  for (const k of Object.keys(STATUS)) if (counts[k]) s.append(el('span', { class: 'chip ' + STATUS[k].cls, text: `${counts[k]} ${STATUS[k].label.split(' ·')[0].toLowerCase()}` }));
+}
+
+function render() {
+  renderSummary();
+  const list = document.getElementById('list');
+  if (!posts.length) {
+    list.replaceChildren(el('div', { class: 'notice' }, el('strong', { text: 'Nenhum post por enquanto.' }), el('br'),
+      document.createTextNode('Toda segunda-feira de manhã o agente coloca aqui os posts de quarta e sexta para você aprovar.')));
+    return;
+  }
+  list.replaceChildren(...posts.map(renderPost));
+}
+
+function renderPost(p) {
+  const st = STATUS[p.status] || STATUS.pendente;
+  const u = ui[p.id] || (ui[p.id] = { tab: 'instagram', fb: false });
+  const d = drafts[p.id] || (drafts[p.id] = { instagram: p.legenda_instagram || '', linkedin: p.legenda_linkedin || '' });
+  const open = p.status === 'pendente';
+  const editable = open && canWrite;
+
+  const img = safeImg(p.preview_url);
+  const art = el('div', { class: 'art' }, img ? el('img', { src: img, alt: p.alt || 'Arte do post' }) : document.createTextNode('Arte indisponível'));
+
+  const tabs = el('div', { class: 'tabs', role: 'tablist' },
+    ...[['instagram', 'Instagram'], ['linkedin', 'LinkedIn']].map(([k, label]) =>
+      el('button', { class: 'tab', role: 'tab', 'aria-selected': String(u.tab === k), id: `tab-${p.id}-${k}`,
+        onclick: () => { u.tab = k; render(); } }, document.createTextNode(label))));
+
+  const ta = el('textarea', { id: `cap-${p.id}`, 'aria-label': `Legenda do ${u.tab === 'instagram' ? 'Instagram' : 'LinkedIn'}`, readonly: !editable });
+  ta.value = d[u.tab];
+  const changed = () => d.instagram !== (p.legenda_instagram || '') || d.linkedin !== (p.legenda_linkedin || '');
+  const editedNote = el('span', { class: 'edited', text: changed() ? 'Legenda editada por você: vai ser salva ao aprovar.' : '' });
+  ta.addEventListener('input', () => { d[u.tab] = ta.value; editedNote.textContent = changed() ? 'Legenda editada por você: vai ser salva ao aprovar.' : ''; });
+
+  const msg = el('div', { class: 'msg', 'aria-live': 'polite' });
+  const kids = [
+    el('div', { class: 'meta' }, el('span', { class: 'date', text: fmtDate(p.data_publicacao) }),
+      el('span', { class: 'pilar', text: p.pilar === 'servico' ? 'Serviço' : 'Produto' }), el('span', { class: 'chip ' + st.cls, text: st.label })),
+    tabs, ta, editedNote,
+  ];
+  if (p.status === 'ajuste' && p.feedback) kids.push(el('div', { class: 'feedback-note', text: 'Seu pedido: ' + p.feedback + ' (o agente refaz e devolve para cá).' }));
+
+  if (editable) {
+    const save = async (patch, okText) => {
+      buttons.forEach(b => b.disabled = true); msg.textContent = 'Salvando…';
+      try {
+        await db.doc('posts/' + p.id).update({ ...patch, decidido_em: new Date().toISOString() });
+        msg.textContent = okText;
+      } catch (e) {
+        msg.textContent = e && e.code === 'invalid_argument' ? 'Você não tem permissão para decidir este post.' : 'Não deu para salvar agora. Tente de novo em instantes.';
+        buttons.forEach(b => b.disabled = false);
+      }
+    };
+    const approve = el('button', { class: 'btn btn-ok', id: `ok-${p.id}`, onclick: () => save({ status: 'aprovado', legenda_instagram: d.instagram, legenda_linkedin: d.linkedin, editado_por_voce: changed() }, 'Aprovado.') }, document.createTextNode('Aprovar'));
+    const adjust = el('button', { class: 'btn btn-alt', id: `adj-${p.id}`, onclick: () => { u.fb = !u.fb; render(); } }, document.createTextNode(u.fb ? 'Cancelar ajuste' : 'Pedir ajuste'));
+    const reject = el('button', { class: 'btn btn-ghost', id: `no-${p.id}`, onclick: () => save({ status: 'reprovado' }, 'Descartado.') }, document.createTextNode('Descartar'));
+    const buttons = [approve, adjust, reject];
+    if (u.fb) {
+      const fb = el('textarea', { id: `fb-${p.id}`, placeholder: 'O que mudar? Ex.: trocar o título, falar de outro material, legenda mais curta…', 'aria-label': 'Pedido de ajuste' });
+      const send = el('button', { class: 'btn btn-ok', id: `send-${p.id}`, onclick: () => {
+        const t = fb.value.trim(); if (!t) { msg.textContent = 'Escreva o que você quer mudar.'; fb.focus(); return; }
+        u.fb = false; save({ status: 'ajuste', feedback: t }, 'Pedido enviado.'); } }, document.createTextNode('Enviar pedido'));
+      buttons.push(send);
+      kids.push(el('div', { class: 'fb' }, fb), el('div', { class: 'actions' }, send, adjust));
+    } else {
+      kids.push(el('div', { class: 'actions' }, approve, adjust, reject));
+    }
+    kids.push(msg);
+  } else if (open && !canWrite) {
+    kids.push(el('div', { class: 'msg', text: 'Só o dono desta página pode aprovar.' }));
+  }
+
+  return el('article', { class: 'post' + (open ? '' : ' done'), id: 'post-' + p.id }, art, el('div', { class: 'info' }, ...kids));
+}
+
+(async () => {
+  const empty = document.getElementById('empty');
+  db = await claude.use('db');
+  if (!db) { empty.replaceChildren(el('strong', { text: 'Abra esta página no claude.ai, com sua conta, para ver e aprovar os posts.' })); return; }
+  const user = await claude.use('user');
+  canWrite = user ? (await user.canEdit()) : true;
+  const timer = setTimeout(() => { empty.replaceChildren(el('strong', { text: 'Os posts ainda não carregaram.' }), el('br'), document.createTextNode('Confira sua conexão; a página atualiza sozinha quando chegar.')); }, 10000);
+  db.collection('posts').orderBy('data_publicacao', 'desc').limit(40).onSnapshot(snap => {
+    if (!snap.metadata.fromCache) clearTimeout(timer);
+    posts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    for (const p of posts) if (p.status !== 'pendente') delete drafts[p.id];
+    render();
+  }, () => { clearTimeout(timer); empty.replaceChildren(el('strong', { text: 'Não foi possível carregar os posts.' }), el('br'), document.createTextNode('Recarregue a página.')); });
+})();
+</script>

@@ -11,14 +11,20 @@
   },
   "agenda": {
     "posts_por_semana": 2,
-    "dias": ["quarta", "sexta"],
+    "dias": [
+      "quarta",
+      "sexta"
+    ],
     "horario": "12:00"
   },
-  "pilares": ["produto", "servico"],
+  "pilares": [
+    "produto",
+    "servico"
+  ],
   "aprovacao": {
-    "pagina_url": "PREENCHER_APOS_PUBLICAR"
+    "pagina_url": "https://claude.ai/artifact/FUbg74ZjWUsW1gQXWkH9mD"
   },
   "imagens": {
-    "url_base": "PREENCHER_COM_RAW_DO_GITHUB (ex.: https://raw.githubusercontent.com/<usuario>/eprint-social/main/)"
+    "url_base": "https://raw.githubusercontent.com/hiltonlucas2011-dot/eprint-social/main/"
   }
 }
