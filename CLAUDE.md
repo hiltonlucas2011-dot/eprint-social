@@ -25,6 +25,8 @@ ter–sex 8h  ──►  PUBLICAR: aprovados → fila do Buffer (qua/sex 12h)
 3. Para cada post, crie `posts/AAAA-MM-DD-<slug>/post.json` com os campos:
    - `id`, `data_publicacao` (ISO com -03:00), `pilar` (`produto` | `servico`)
    - `layout`: alterne `verde`, `claro` e `marinho` (nunca dois iguais seguidos)
+   - **Alterne post com foto e post só com texto** (na semana: um de cada). Post com foto: baixe a foto do produto da loja e salve como `posts/<id>/foto.jpg`, com o campo `"foto": "foto.jpg"`. Nesse caso, `bullets` não aparece na arte (as informações vão na legenda).
+     Fotos: em `https://www.eprintonline.store/products/<handle>.json` → `product.images[].src`. Troque `https://cdn.shopify.com/s/files/1/0682/4126/0819/` por `https://www.eprintonline.store/cdn/shop/` para baixar. Baixe uma por vez, com alguns segundos entre elas (o site devolve erro 429 se for rápido demais). Prefira fotos com 800 px ou mais, e **nunca use foto que mostre marca ou logotipo de cliente**.
    - `tag` (2–3 palavras), `titulo` (até ~45 caracteres; `*palavra*` vira destaque de cor)
    - `subtitulo` (1–2 frases), `bullets` (0–3 itens curtos) **ou** `destaque` `{valor, legenda}`, `cta`
    - `alt` (texto alternativo da imagem)
@@ -51,6 +53,7 @@ ter–sex 8h  ──►  PUBLICAR: aprovados → fila do Buffer (qua/sex 12h)
 4. `status: "ajuste"` → refaça o post seguindo o `feedback`, renderize de novo, faça push, suba a nova arte como asset (novo `preview_url`), e volte o documento para `status: "pendente"` com `feedback` limpo e `versao` + 1. Avise o Hilton.
 5. `status: "reprovado"` → não publique; registre no histórico como descartado.
 6. `pendente` → não faça nada.
+7. Pode haver **várias opções para o mesmo dia**. Agende só as aprovadas. Se mais de uma for aprovada para o mesmo dia, agende a primeira aprovada (`decidido_em`) nesse dia e as outras nos próximos horários livres da agenda (quarta/sexta 12h), avisando o Hilton das novas datas.
 
 ## Regras que não mudam
 

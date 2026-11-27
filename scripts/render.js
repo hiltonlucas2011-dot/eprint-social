@@ -14,6 +14,8 @@ const { chromium } = require('playwright');
   const page = await browser.newPage({ viewport: { width: 1080, height: 1350 }, deviceScaleFactor: 1 });
   for (const f of files) {
     const post = JSON.parse(fs.readFileSync(f, 'utf8'));
+    // "foto": arquivo de imagem do produto na mesma pasta do post.json (ex.: "foto.jpg")
+    if (post.foto) post.foto_url = 'file://' + path.resolve(path.dirname(f), post.foto);
     await page.goto(template);
     await page.evaluate(p => window.renderPost(p), post);
     // Confere se algum texto estourou a arte
