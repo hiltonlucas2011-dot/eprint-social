@@ -1,0 +1,4 @@
+Figtree — Copyright The Figtree Project Authors. SIL Open Font License 1.1.
+Maven Pro — Copyright The Maven Pro Project Authors. SIL Open Font License 1.1.
+Fontes obtidas em github.com/google/fonts (pasta ofl/). Os arquivos .ttf desta pasta são instâncias
+estáticas (por peso) geradas a partir das fontes variáveis originais. Licença completa: https://openfontlicense.org

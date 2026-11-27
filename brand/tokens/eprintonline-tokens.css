@@ -1,0 +1,42 @@
+/* Eprintonline — variáveis de marca (design tokens)
+   Uso: <link> ou @import deste arquivo e referenciar var(--ep-*).
+   Fontes: Figtree (títulos/rótulos/números) e Maven Pro (texto corrido).
+   Origem: cores extraídas dos materiais já aprovados (calendário de Instagram, e-mails, dashboards)
+   e da prancha "Logo Application Details". */
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&family=Maven+Pro:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Cores principais */
+  --ep-green:        #6AB04C;  /* verde da marca (CTA, acentos, ícone) */
+  --ep-green-dark:   #4A8A2E;  /* verde escuro (textos verdes, hover) */
+  --ep-green-light:  #F0F9EB;  /* fundo verde bem claro (cards, destaques) */
+  --ep-navy:         #222831;  /* azul-marinho (cabeçalho/rodapé, títulos) */
+  --ep-text:         #2C3E50;  /* texto corrido */
+  --ep-gray:         #6B7280;  /* texto secundário / legendas */
+  --ep-border:       #E5E7EB;  /* bordas e divisores */
+  --ep-stripe:       #F7FAF5;  /* zebra de tabelas */
+  --ep-white:        #FFFFFF;
+
+  /* Cores de categoria (uso secundário: calendários, dashboards, legendas) */
+  --ep-totem:        #3B82F6;  --ep-totem-bg:   #EFF6FF;
+  --ep-display:      #F59E0B;  --ep-display-bg: #FFFBEB;
+
+  /* Fundos aprovados para o logo colorido (medidos no estudo de marca) */
+  --ep-bg-white:     #FFFFFF;
+  --ep-bg-gray:      #E0E1E3;
+  --ep-bg-palegreen: #D5F1E2;
+  --ep-bg-offwhite:  #F6F7E9;
+
+  /* Tipografia */
+  --ep-font-heading: 'Figtree', system-ui, sans-serif;
+  --ep-font-body:    'Maven Pro', system-ui, sans-serif;
+
+  /* Raios */
+  --ep-radius-sm: 6px;  --ep-radius-md: 8px;  --ep-radius-lg: 10px;  --ep-radius-pill: 999px;
+
+  /* Logo */
+  --ep-logo-clear-space: 0.25;  /* × altura do ícone, em todos os lados (mínimo) */
+  --ep-logo-min-icon-px: 16;    /* ícone isolado, digital */
+  --ep-logo-min-print-mm: 10;   /* assinatura completa, largura mínima em impressão */
+}

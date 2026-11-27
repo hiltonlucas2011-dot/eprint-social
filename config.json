@@ -1,0 +1,24 @@
+{
+  "empresa": "Eprintonline",
+  "site": "www.eprintonline.com.br",
+  "fuso": "America/Sao_Paulo",
+  "buffer": {
+    "organizationId": "6b0975eb0662e38c3e16d36e",
+    "canais": {
+      "instagram": "6b097a7f8541f09ecbc0ffbf",
+      "linkedin_perfil": "6b0979ef8541f09ecbc0fb5c"
+    }
+  },
+  "agenda": {
+    "posts_por_semana": 2,
+    "dias": ["quarta", "sexta"],
+    "horario": "12:00"
+  },
+  "pilares": ["produto", "servico"],
+  "aprovacao": {
+    "pagina_url": "PREENCHER_APOS_PUBLICAR"
+  },
+  "imagens": {
+    "url_base": "PREENCHER_COM_RAW_DO_GITHUB (ex.: https://raw.githubusercontent.com/<usuario>/eprint-social/main/)"
+  }
+}

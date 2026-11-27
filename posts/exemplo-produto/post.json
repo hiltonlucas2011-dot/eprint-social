@@ -1,0 +1,11 @@
+{
+  "id": "exemplo-produto",
+  "pilar": "produto",
+  "layout": "verde",
+  "tag": "Impressão UV",
+  "titulo": "Cores que *saltam* do material",
+  "subtitulo": "Impressão UV em 6 cores com dupla impressão para quem não aceita cor desbotada.",
+  "bullets": ["Cores saturadas e nítidas", "Opções PVC-Free", "Do arquivo à entrega com a gente"],
+  "cta": "Peça seu orçamento",
+  "alt": "Arte verde da Eprintonline com o título Cores que saltam do material e três benefícios da impressão UV."
+}

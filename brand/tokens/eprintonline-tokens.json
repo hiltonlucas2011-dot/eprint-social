@@ -1,0 +1,106 @@
+{
+  "$schema": "Eprintonline design tokens v1",
+  "color": {
+    "green": {
+      "value": "#6AB04C",
+      "uso": "verde da marca: CTA, acentos, ícone"
+    },
+    "greenDark": {
+      "value": "#4A8A2E",
+      "uso": "textos verdes, hover"
+    },
+    "greenLight": {
+      "value": "#F0F9EB",
+      "uso": "fundos verdes bem claros, cards"
+    },
+    "navy": {
+      "value": "#222831",
+      "uso": "cabeçalho/rodapé, títulos"
+    },
+    "text": {
+      "value": "#2C3E50",
+      "uso": "texto corrido"
+    },
+    "gray": {
+      "value": "#6B7280",
+      "uso": "texto secundário"
+    },
+    "border": {
+      "value": "#E5E7EB",
+      "uso": "bordas e divisores"
+    },
+    "stripe": {
+      "value": "#F7FAF5",
+      "uso": "zebra de tabelas"
+    },
+    "white": {
+      "value": "#FFFFFF"
+    },
+    "totem": {
+      "value": "#3B82F6",
+      "bg": "#EFF6FF",
+      "uso": "categoria (calendários/dashboards)"
+    },
+    "display": {
+      "value": "#F59E0B",
+      "bg": "#FFFBEB",
+      "uso": "categoria (calendários/dashboards)"
+    }
+  },
+  "logoBackgrounds": {
+    "white": "#FFFFFF",
+    "lightGray": "#E0E1E3",
+    "paleGreen": "#D5F1E2",
+    "offWhite": "#F6F7E9",
+    "nota": "valores medidos na imagem do estudo de marca (aproximados)"
+  },
+  "font": {
+    "heading": {
+      "family": "Figtree",
+      "weights": [
+        500,
+        600,
+        700,
+        800,
+        900
+      ]
+    },
+    "body": {
+      "family": "Maven Pro",
+      "weights": [
+        400,
+        500,
+        700
+      ]
+    }
+  },
+  "radius": {
+    "sm": 6,
+    "md": 8,
+    "lg": 10,
+    "pill": 999
+  },
+  "logo": {
+    "clearSpaceFactor": 0.25,
+    "clearSpaceBase": "altura do ícone",
+    "minIconPx": 16,
+    "minPrintMm": 10,
+    "files": {
+      "verticalCor": "assets/logos/logo-vertical-cor.svg",
+      "verticalInvertido": "assets/logos/logo-vertical-invertido.svg",
+      "horizontalCor": "assets/logos/logo-horizontal-cor.svg",
+      "horizontalInvertido": "assets/logos/logo-horizontal-invertido.svg",
+      "iconeVerde": "assets/logos/icone-verde.svg",
+      "iconeMarinho": "assets/logos/icone-marinho.svg",
+      "iconeInvertido": "assets/logos/icone-invertido.svg"
+    },
+    "printMaster": {
+      "file": "assets/logos/impressao/logo-vertical-curvas-CMYK.pdf",
+      "greenCMYK": "C70 M0 Y90 K0",
+      "wordmarkCMYK": "K100",
+      "nota": "mestre de impressão com o quadrado corrigido (raio único de 20%); original em impressao/original-recebido/; SVG/PNG são RGB"
+    },
+    "squareCornerRadius": "20% do lado"
+  },
+  "site": "www.eprintonline.com.br"
+}
