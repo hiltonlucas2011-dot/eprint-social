@@ -14,7 +14,7 @@ ter–sex 8h  ──►  PUBLICAR: aprovados → fila do Buffer (qua/sex 12h)
 ```
 
 - Configuração fixa (IDs do Buffer, dias, horário, URLs): `config.json`.
-- Conteúdo da empresa (produtos, serviços, cases, tom): `conteudo/empresa.md`. **Só use fatos que estejam ali.**
+- Conteúdo da empresa: `conteudo/empresa.md` (resumo, diferenciais) e `conteudo/catalogo.md` (todos os produtos da loja, com descrição e link). **Só use fatos que estejam ali.** Não cite preços.
 - Ideias de pauta: `conteudo/pautas.md`. Histórico do que já saiu: `conteudo/historico.md` (não repetir tema em menos de 6 semanas).
 - Marca: `brand/` (logos, fontes, tokens). Regras no skill `eprintonline-brand`, se disponível.
 
