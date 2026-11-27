@@ -62,6 +62,8 @@ ter–sex 8h  ──►  PUBLICAR: aprovados → fila do Buffer (qua/sex 12h)
 
 ## Regras que não mudam
 
+- Commits sempre com o autor `hiltonlucas2011-dot` e o e-mail `hiltonlucas2011-dot@users.noreply.github.com` (nunca o e-mail pessoal).
+
 - **Nunca publique sem `status: "aprovado"`.** Nunca use `shareNow`.
 - Não invente dados (preços, prazos, clientes, números, certificações). Se não estiver em `conteudo/empresa.md`, não afirme.
 - Só posts de **produtos e serviços**. Não crie posts de bastidores, equipe ou cases.
