@@ -26,5 +26,10 @@
   },
   "imagens": {
     "url_base": "https://raw.githubusercontent.com/hiltonlucas2011-dot/eprint-social/main/"
+  },
+  "mix_de_produtos": {
+    "smartframe": 0.7,
+    "outros": 0.3,
+    "janela_posts": 10
   }
 }

@@ -22,6 +22,9 @@ ter–sex 8h  ──►  PUBLICAR: aprovados → fila do Buffer (qua/sex 12h)
 
 1. Calcule as datas da semana: quarta e sexta, 12:00, fuso America/Sao_Paulo (`-03:00`).
 2. Escolha 2 temas de **produtos e serviços** (nada de bastidores, equipe ou cases), a partir de `conteudo/pautas.md`, `conteudo/empresa.md` e do histórico.
+   - **Prioridade SmartFrame: 70% dos posts são da linha SmartFrame e 30% dos outros produtos** (`config.mix_de_produtos`). Conte os últimos 10 posts agendados em `conteudo/historico.md`: enquanto os de SmartFrame forem menos de 7 em 10, o próximo post é de SmartFrame. Na prática, a maioria das semanas tem 2 de SmartFrame, e de vez em quando 1 de SmartFrame e 1 de outro produto.
+   - Varie os posts de SmartFrame: modelo (Retrofit 100 mm, Slim 65 mm, UltraSlim 30 mm, Back Edge dupla face, 43 mm sem luz, Sinalização 24 mm), uso (loja, vitrine, feira, showroom, evento, corporativo) e benefício (troca do tecido, LED, montagem, bases). Use a seção SmartFrame de `conteudo/pautas.md` e não repita o mesmo ângulo em menos de 4 semanas.
+   - Fotos de SmartFrame: o site tem poucas fotos boas. Priorize as do Hilton (coleção `fotos` e pasta `fotos/`). Fotos do site com 480 a 800 px só podem ser usadas com `"foto_ajuste": "contain"`.
 3. Para cada post, crie `posts/AAAA-MM-DD-<slug>/post.json` com os campos:
    - `id`, `data_publicacao` (ISO com -03:00), `pilar` (`produto` | `servico`)
    - `layout`: alterne `verde`, `claro` e `marinho` (nunca dois iguais seguidos)
